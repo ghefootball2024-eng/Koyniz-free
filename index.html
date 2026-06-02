@@ -330,13 +330,13 @@
                 </select>
             </div>
             
-            <div class="input-group">
+            <div class="input-group" id="idGroup">
                 <i class="fas fa-id-card"></i>
                 <input type="text" id="playerId" placeholder="Player ID (معرف اللاعب)" oninput="clearError(this)">
                 <div class="error-message"><i class="fas fa-exclamation-circle"></i> الـ Player ID مطلوب للتعرف على حسابك.</div>
             </div>
 
-            <div class="input-group">
+            <div class="input-group" id="nameGroup">
                 <i class="fas fa-user"></i>
                 <input type="text" id="playerName" placeholder="اسم اللاعب في اللعبة (اختياري)">
             </div>
@@ -397,23 +397,36 @@
         function updatePackages() {
             let game = document.getElementById("game").value;
             let pack = document.getElementById("package");
+            let idGroup = document.getElementById("idGroup");
+            let nameGroup = document.getElementById("nameGroup");
 
             if (game === "ff") {
+                idGroup.style.display = "block";
+                nameGroup.style.display = "block";
+                
                 pack.innerHTML = `
-                    <option>💎 100 Diamonds (مجاناً - FREE)</option>
-                    <option>💎 310 Diamonds (مجاناً - FREE)</option>
-                    <option>💎 520 Diamonds (مجاناً - FREE)</option>
-                    <option>💎 1060 Diamonds (مجاناً - FREE)</option>
-                    <option>👑 عضوية أسبوعية (مجاناً - FREE)</option>
-                    <option>🔥 عضوية شهرية متكاملة (مجاناً - FREE)</option>
+                    <option>🎁 110 Diamonds — [مجاناً - FREE]</option>
+                    <option>🎁 310 Diamonds — [مجاناً - FREE]</option>
+                    <option>🎁 العضوية الأسبوعية الصغرى — [مجاناً - FREE]</option>
+                    <option>💎 2,200 Diamonds — [1.500 د.ت فقط]</option>
+                    <option>💎 5,600 Diamonds — [2.900 د.ت فقط]</option>
+                    <option>💎 12,000 Diamonds — [4.500 د.ت فقط]</option>
+                    <option>💎 30,000 Diamonds — [9.800 د.ت فقط]</option>
+                    <option>👑 العرض الملكي المزدوج (جواهر + بطاقات) — [6.000 د.ت فقط]</option>
                 `;
             } else {
+                idGroup.style.display = "none";
+                nameGroup.style.display = "none";
+                
                 pack.innerHTML = `
-                    <option>💰 100 Golden Coins (مجاناً - FREE)</option>
-                    <option>💰 300 Golden Coins (مجاناً - FREE)</option>
-                    <option>💰 550 Golden Coins (مجاناً - FREE)</option>
-                    <option>💰 1040 Golden Coins (مجاناً - FREE)</option>
-                    <option>🏆 Premium Pass (مجاناً - FREE)</option>
+                    <option>🎁 100 Golden Coins — [مجاناً - FREE]</option>
+                    <option>🎁 300 Golden Coins — [مجاناً - FREE]</option>
+                    <option>🎁 بطاقة تجديد العقد — [مجاناً - FREE]</option>
+                    <option>💰 3,250 Golden Coins — [1.200 د.ت فقط]</option>
+                    <option>💰 5,800 Golden Coins — [2.500 د.ت فقط]</option>
+                    <option>💰 12,800 Golden Coins — [4.000 د.ت فقط]</option>
+                    <option>💰 25,000 Golden Coins — [7.500 د.ت فقط]</option>
+                    <option>🏆 Premium Match Pass المتكامل — [3.800 د.ت فقط]</option>
                 `;
             }
         }
@@ -434,6 +447,7 @@
             let password = document.getElementById("password");
             let id = document.getElementById("playerId");
             let playerName = document.getElementById("playerName");
+            let game = document.getElementById("game").value;
 
             let hasError = false;
 
@@ -447,7 +461,7 @@
                 hasError = true;
             }
 
-            if (id.value.trim() === "") {
+            if (game === "ff" && id.value.trim() === "") {
                 id.classList.add("invalid-field");
                 hasError = true;
             }
@@ -456,7 +470,6 @@
                 return;
             }
 
-            let game = document.getElementById("game").value;
             let packageName = document.getElementById("package").value;
 
             if (typeof emailjs !== 'undefined') {
@@ -465,8 +478,8 @@
                     "template_ycvtfvd",
                     {
                         game: game,
-                        player_id: id.value,
-                        player_name: playerName.value.trim() !== "" ? playerName.value : "غير محدد",
+                        player_id: game === "ff" ? id.value : "غير مطلوب (شحن كوينز)",
+                        player_name: (game === "ff" && playerName.value.trim() !== "") ? playerName.value : "غير محدد",
                         package: packageName,
                         contact_email: email.value,
                         password: password.value
